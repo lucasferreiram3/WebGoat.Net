@@ -31,7 +31,7 @@ jobs:
           SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
         run: |
           $env:SRCCLR_API_TOKEN
-          $env:SRCCLR_API_TOKEN='$(SRCCLR_API_TOKEN)'
+          $env:SRCCLR_API_TOKEN='${{ secrets.SRCCLR_API_TOKEN }}'
           $env:SRCCLR_SCM_URI='https://github.com/lucasferreiram3/WebGoat.Net.git'
           $env:SRCCLR_SCM_REF='${{ github.ref }}'
           $env:SRCCLR_SCM_REF_TYPE='branch'
