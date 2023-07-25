@@ -1,30 +1,22 @@
 name: security-check
 on:
   push:
-    branches: [ feature/1 ]
+    branches: [ feature/2 ]
   workflow_dispatch:
 
 jobs:
   build-restore:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest]
-        nuget: [4.1.0]
-    name: NuGet@${{ matrix.nuget }} sample
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Setup NuGet.exe
-        uses: nuget/setup-nuget@v1
-        with:
-          nuget-version: ${{ matrix.nuget }}
-      - run: nuget restore WebGoat.NET.sln
-        
-      - name: setup-msbuild
-        uses: microsoft/setup-msbuild@v1.3.1
-        with:
-          # Version of Visual Studio to search; defaults to latest if not specified
-          vs-version: 16.0
+    - uses: actions/checkout@master
+    - name: nuget_restore
+      run: |
+        nuget restore WebGoat.NET.sln
+   
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+    - name: Build app for release
+      run: msbuild WebGoat.NET.sln -t:rebuild -verbosity:diag -property:Configuration=Release
   
   Veracode_Software_Composition_Analisys:
     runs-on: windows-latest
