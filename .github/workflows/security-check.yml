@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  nuget-restore:
+  build-restore:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -20,6 +20,9 @@ jobs:
           nuget-version: ${{ matrix.nuget }}
       - run: nuget restore WebGoat.NET.sln
       
+      - uses: microsoft/setup-msbuild@v1.3.1
+      - name: setup-msbuild  
+  
   Veracode_Software_Composition_Analisys:
     runs-on: windows-latest
     name: Veracode SCA Scan
@@ -43,3 +46,4 @@ jobs:
           $ProgressPreference = "silentlyContinue"; iex ((New-Object System.Net.WebClient).DownloadString('https://download.sourceclear.com/ci.ps1'))
 
           srcclr scan .
+  
